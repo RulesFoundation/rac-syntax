@@ -5,9 +5,7 @@
  */
 
 code[class*="language-rac"],
-pre[class*="language-rac"],
-code[class*="language-catala"],
-pre[class*="language-catala"] {
+pre[class*="language-rac"] {
   color: #e2e8f0;
   background: none;
   font-family: "JetBrains Mono", "Fira Code", "Consolas", "Monaco", "Andale Mono", monospace;
@@ -22,8 +20,7 @@ pre[class*="language-catala"] {
   hyphens: none;
 }
 
-pre[class*="language-rac"],
-pre[class*="language-catala"] {
+pre[class*="language-rac"] {
   padding: 1.25em;
   margin: 0.5em 0;
   overflow: auto;
@@ -31,8 +28,7 @@ pre[class*="language-catala"] {
   background: #0f172a;
 }
 
-:not(pre) > code[class*="language-rac"],
-:not(pre) > code[class*="language-catala"] {
+:not(pre) > code[class*="language-rac"] {
   padding: 0.2em 0.4em;
   border-radius: 0.25em;
   white-space: normal;
@@ -128,40 +124,22 @@ pre[class*="language-catala"] {
   color: #64748b;
 }
 
-/* ─── Catala-specific tokens ───────────────────────────────────────────────── */
-.token.catala-title {
-  color: #f59e0b;
-  font-weight: 700;
-  font-size: 1.1em;
-}
-
-.token.catala-section {
-  color: #f59e0b;
-  font-weight: 600;
-}
-
 /* ─── Selection ────────────────────────────────────────────────────────────── */
 code[class*="language-rac"]::selection,
 code[class*="language-rac"] *::selection,
 pre[class*="language-rac"]::selection,
-pre[class*="language-rac"] *::selection,
-code[class*="language-catala"]::selection,
-code[class*="language-catala"] *::selection,
-pre[class*="language-catala"]::selection,
-pre[class*="language-catala"] *::selection {
+pre[class*="language-rac"] *::selection {
   background: #334155;
 }
 
 /* ─── Line numbers (if using line-numbers plugin) ──────────────────────────── */
-pre[class*="language-rac"].line-numbers,
-pre[class*="language-catala"].line-numbers {
+pre[class*="language-rac"].line-numbers {
   position: relative;
   padding-left: 3.8em;
   counter-reset: linenumber;
 }
 
-pre[class*="language-rac"].line-numbers > code,
-pre[class*="language-catala"].line-numbers > code {
+pre[class*="language-rac"].line-numbers > code {
   position: relative;
   white-space: inherit;
 }

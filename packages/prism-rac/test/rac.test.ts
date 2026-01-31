@@ -63,10 +63,6 @@ describe('prism-rac grammar registration', () => {
     expect(typeof Prism.languages.rac).toBe('object')
   })
 
-  it('should register the catala grammar on Prism.languages', () => {
-    expect(Prism.languages.catala).toBeDefined()
-    expect(typeof Prism.languages.catala).toBe('object')
-  })
 })
 
 describe('top-level declarations / section keywords', () => {
@@ -457,32 +453,6 @@ import:
     expect(flat.some((t) => t.type === 'date')).toBe(true)
     expect(flat.some((t) => t.type === 'import-path')).toBe(true)
     expect(flat.some((t) => t.type === 'block-scalar')).toBe(true)
-  })
-})
-
-describe('catala grammar', () => {
-  it('should tokenize Catala scope titles (@@...@@)', () => {
-    const code = '@@Scope IncomeTax@@'
-    const tokens = Prism.tokenize(code, Prism.languages.catala)
-    const flat = flattenTokens(tokens)
-    expect(flat.some((t) => t.type === 'catala-title')).toBe(true)
-  })
-
-  it('should tokenize Catala keywords', () => {
-    const catalaKeywords = ['scope', 'definition', 'rule', 'under condition', 'consequence', 'assertion', 'equals']
-    for (const kw of catalaKeywords) {
-      const code = `  ${kw} something`
-      const tokens = Prism.tokenize(code, Prism.languages.catala)
-      const flat = flattenTokens(tokens)
-      expect(flat.some((t) => t.type === 'keyword' && t.content === kw)).toBe(true)
-    }
-  })
-
-  it('should tokenize Catala section markers (@...@)', () => {
-    const code = '@Article 1@'
-    const tokens = Prism.tokenize(code, Prism.languages.catala)
-    const flat = flattenTokens(tokens)
-    expect(flat.some((t) => t.type === 'catala-section')).toBe(true)
   })
 })
 
