@@ -1,0 +1,42 @@
+{
+  "name": "prism-rac",
+  "version": "0.1.0",
+  "description": "Prism.js syntax highlighting for RAC (Rules as Code)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RulesFoundation/rac-syntax",
+    "directory": "packages/prism-rac"
+  },
+  "homepage": "https://rules.foundation",
+  "keywords": ["prismjs", "syntax", "highlighting", "rac", "rules-as-code", "tax", "policy"],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./themes/dark.css": "./themes/dark.css"
+  },
+  "files": ["dist/", "themes/", "LICENSE"],
+  "peerDependencies": {
+    "prismjs": ">=1.20.0"
+  },
+  "devDependencies": {
+    "prismjs": "^1.30.0",
+    "@types/prismjs": "^1.26.0",
+    "typescript": "~5.6.0",
+    "vitest": "^2.0.0",
+    "tsup": "^8.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit"
+  }
+}

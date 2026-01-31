@@ -1,0 +1,48 @@
+{
+  "name": "vscode-rac",
+  "displayName": "RAC - Rules as Code",
+  "description": "Syntax highlighting for RAC (Rules as Code) files",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publisher": "rulesfoundation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RulesFoundation/rac-syntax",
+    "directory": "packages/vscode-rac"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Programming Languages"],
+  "keywords": ["rac", "rules-as-code", "syntax", "highlighting", "tax", "policy"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rac",
+        "aliases": ["RAC", "Rules as Code"],
+        "extensions": [".rac"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/rac-light.svg",
+          "dark": "./icons/rac-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rac",
+        "scopeName": "source.rac",
+        "path": "./syntaxes/rac.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "bun test",
+    "build": "echo 'No build step needed for grammar extension'",
+    "lint": "echo 'ok'",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "vscode-tmgrammar-test": "^0.1.3"
+  }
+}

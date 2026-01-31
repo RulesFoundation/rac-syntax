@@ -1,0 +1,13 @@
+{
+  "name": "rac-syntax",
+  "private": true,
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "bun run --filter '*' test",
+    "build": "bun run --filter '*' build",
+    "lint": "bun run --filter '*' lint"
+  },
+  "devDependencies": {
+    "typescript": "~5.6.0"
+  }
+}

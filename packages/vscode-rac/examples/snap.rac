@@ -1,0 +1,36 @@
+# 7 USC § 2017(a) - SNAP Allotment
+
+text: |
+  The value of the coupon allotment shall be the cost of the
+  thrifty food plan for a household of such size, adjusted to
+  reflect changes in the cost of the thrifty food plan.
+
+parameter max_allotment:
+  description: "Maximum SNAP allotment by household size"
+  unit: USD
+  source: "USDA FNS"
+  values:
+    2024-10-01:
+      1: 292
+      2: 536
+      3: 768
+      4: 975
+
+parameter contribution_rate:
+  description: "Expected household contribution rate"
+  values:
+    2024-01-01: 0.30
+
+variable snap_allotment:
+  imports: [7/2014#household_size, 7/2014/a#snap_eligible]
+  entity: Household
+  period: Month
+  dtype: Money
+  formula: |
+    if not snap_eligible:
+      return 0
+    return max_allotment[household_size] - snap_net_income * contribution_rate
+  tests:
+    - name: "Family of 4"
+      inputs: {household_size: 4, snap_net_income: 500, snap_eligible: true}
+      expect: 825
