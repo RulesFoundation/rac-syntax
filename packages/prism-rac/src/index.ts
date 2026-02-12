@@ -82,21 +82,17 @@ const racGrammar: Prism.Grammar = {
     },
   ],
 
-  // Triple-quoted statute text (docstrings)
   'statute-text': {
     pattern: /"""[\s\S]*?"""/,
     greedy: true,
     alias: 'string',
   },
 
-  // Section keyword + declaration name (e.g., "enum filing_status:")
-  // Must be matched as a single pattern to capture the declaration name
   'section-declaration': {
     pattern: new RegExp(
       `^(?:${sectionKeywords.join('|')})(?:\\s+[\\w]+)?\\s*:`,
       'm'
     ),
-    lookbehind: false,
     inside: {
       'section-keyword': new RegExp(`^(?:${sectionKeywords.join('|')})`),
       'declaration-name': {
@@ -106,7 +102,6 @@ const racGrammar: Prism.Grammar = {
     },
   },
 
-  // Bare definition: identifier at start of line followed by colon (e.g., "niit_rate:")
   'bare-declaration': {
     pattern: /^[a-zA-Z_]\w*\s*:/m,
     inside: {

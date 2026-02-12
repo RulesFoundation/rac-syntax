@@ -52,14 +52,7 @@
     "declarations": {
       "patterns": [
         {
-          "match": "^(text)\\s*(:)",
-          "captures": {
-            "1": { "name": "keyword.declaration.rac" },
-            "2": { "name": "punctuation.separator.colon.rac" }
-          }
-        },
-        {
-          "match": "^(versions|references)\\s*(:)",
+          "match": "^(text|versions|references)\\s*(:)",
           "captures": {
             "1": { "name": "keyword.declaration.rac" },
             "2": { "name": "punctuation.separator.colon.rac" }
