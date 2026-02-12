@@ -262,6 +262,20 @@ describe('comments', () => {
   })
 })
 
+describe('statute text (triple-quoted strings)', () => {
+  it('should tokenize triple-quoted strings as statute-text', () => {
+    const code = '  text: """\n  This is the statute text.\n  """'
+    expect(hasToken(code, 'statute-text', '"""\n  This is the statute text.\n  """')).toBe(true)
+  })
+
+  it('should tokenize multiline statute text', () => {
+    const code = '"""\nLine one.\nLine two.\n"""'
+    const tokens = tokenize(code)
+    const statuteTokens = tokens.filter((t) => t.type === 'statute-text')
+    expect(statuteTokens.length).toBeGreaterThan(0)
+  })
+})
+
 describe('strings', () => {
   it('should tokenize double-quoted strings', () => {
     const code = '  description: "A tax credit"'
