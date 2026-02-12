@@ -203,13 +203,17 @@ describe("TextMate Grammar structure", () => {
   it("has repository with expected groups", () => {
     const expectedGroups = [
       "comments",
+      "statute-text",
       "declarations",
       "attributes",
       "types",
       "keywords",
       "builtins",
       "strings",
+      "block-scalars",
       "numbers",
+      "dates",
+      "percentages",
       "imports",
       "operators",
       "booleans",
@@ -218,6 +222,16 @@ describe("TextMate Grammar structure", () => {
     for (const group of expectedGroups) {
       expect(grammar.repository[group]).toBeDefined();
       expect(grammar.repository[group].patterns).toBeArray();
+    }
+  });
+
+  it("top-level patterns reference all repository groups", () => {
+    const referencedGroups = grammar.patterns
+      .map((p) => p.include?.replace("#", ""))
+      .filter(Boolean);
+    const repositoryKeys = Object.keys(grammar.repository);
+    for (const key of repositoryKeys) {
+      expect(referencedGroups).toContain(key);
     }
   });
 });
@@ -604,6 +618,19 @@ describe("12. Operators get keyword.operator scope", () => {
     const patterns = findPatternsWithScope(grammar, "keyword.operator.rac");
     expect(patterns.length).toBeGreaterThan(0);
   });
+
+  it("matches all operator patterns", () => {
+    const ops = ["==", "!=", "<=", ">=", "=>", "+", "-", "*", "/", "<", ">", "=", "!", "%", "?"];
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.rac");
+    const unmatched: string[] = [];
+    for (const op of ops) {
+      const matched = patterns.some(
+        (p) => p.match && testRegexMatches(p.match, op)
+      );
+      if (!matched) unmatched.push(op);
+    }
+    expect(unmatched).toEqual([]);
+  });
 });
 
 describe("13. Booleans get constant.language.boolean scope", () => {
@@ -657,6 +684,86 @@ describe("15. Block scalar operators get keyword.operator.block-scalar scope", (
     const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
     expect(patterns.length).toBeGreaterThan(0);
   });
+
+  it("matches pipe character after colon", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
+    const matched = patterns.some(
+      (p) => p.match && testRegexMatches(p.match, ": |")
+    );
+    expect(matched).toBe(true);
+  });
+
+  it("matches > character after colon", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
+    const matched = patterns.some(
+      (p) => p.match && testRegexMatches(p.match, ": >")
+    );
+    expect(matched).toBe(true);
+  });
+});
+
+describe("15b. Statute text (triple-quoted) gets string.quoted.triple scope", () => {
+  beforeAll(() => {
+    grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
+  });
+
+  it("has patterns with string.quoted.triple.rac scope", () => {
+    const patterns = findPatternsWithScope(grammar, "string.quoted.triple.rac");
+    expect(patterns.length).toBeGreaterThan(0);
+  });
+
+  it("has begin/end captures for triple-quoted strings", () => {
+    const patterns = findPatternsWithScope(
+      grammar,
+      "punctuation.definition.string.begin.rac"
+    );
+    expect(patterns.length).toBeGreaterThan(0);
+  });
+
+  it("has end captures for triple-quoted strings", () => {
+    const patterns = findPatternsWithScope(
+      grammar,
+      "punctuation.definition.string.end.rac"
+    );
+    expect(patterns.length).toBeGreaterThan(0);
+  });
+});
+
+describe("15c. String escape characters get constant.character.escape scope", () => {
+  beforeAll(() => {
+    grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
+  });
+
+  it("has patterns with constant.character.escape.rac scope", () => {
+    const allPatterns = getAllPatterns(grammar);
+    // Escape patterns are nested inside string patterns
+    const stringPatterns = allPatterns.filter(
+      (p) =>
+        p.name === "string.quoted.double.rac" ||
+        p.name === "string.quoted.single.rac"
+    );
+    const hasEscape = stringPatterns.some(
+      (p) =>
+        p.patterns &&
+        p.patterns.some(
+          (inner) => inner.name === "constant.character.escape.rac"
+        )
+    );
+    expect(hasEscape).toBe(true);
+  });
+
+  it("escape regex matches backslash-n", () => {
+    const allPatterns = getAllPatterns(grammar);
+    const stringPatterns = allPatterns.filter(
+      (p) => p.name === "string.quoted.double.rac"
+    );
+    const escapePattern = stringPatterns
+      .flatMap((p) => p.patterns || [])
+      .find((p) => p.name === "constant.character.escape.rac");
+    expect(escapePattern).toBeDefined();
+    expect(escapePattern!.match).toBeDefined();
+    expect(testRegexMatches(escapePattern!.match!, "\\n")).toBe(true);
+  });
 });
 
 describe("16. Punctuation gets punctuation scope", () => {
@@ -667,6 +774,19 @@ describe("16. Punctuation gets punctuation scope", () => {
   it("has patterns with punctuation.rac scope", () => {
     const patterns = findPatternsWithScope(grammar, "punctuation.rac");
     expect(patterns.length).toBeGreaterThan(0);
+  });
+
+  it("matches various punctuation characters", () => {
+    const chars = ["{", "}", "[", "]", "(", ")", ",", ":", "."];
+    const patterns = findPatternsWithScope(grammar, "punctuation.rac");
+    const unmatched: string[] = [];
+    for (const ch of chars) {
+      const matched = patterns.some(
+        (p) => p.match && testRegexMatches(p.match, ch)
+      );
+      if (!matched) unmatched.push(ch);
+    }
+    expect(unmatched).toEqual([]);
   });
 });
 
