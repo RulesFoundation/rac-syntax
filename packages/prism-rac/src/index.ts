@@ -6,9 +6,6 @@ import Prism from 'prismjs'
 
 const sectionKeywords = [
   'text',
-  'parameter',
-  'variable',
-  'input',
   'enum',
   'function',
   'versions',
@@ -24,18 +21,13 @@ const attributeKeys = [
   'unit',
   'source',
   'reference',
-  'values',
   'imports',
   'entity',
   'period',
   'dtype',
   'label',
   'default',
-  'formula',
-  'tests',
   'name',
-  'inputs',
-  'expect',
   'metadata',
   'enacted_by',
   'reverts_to',
@@ -65,6 +57,7 @@ const formulaKeywords = [
   'let',
   'match',
   'case',
+  'from',
 ]
 
 const formulaBuiltins = ['max', 'min', 'abs', 'round', 'sum', 'len', 'interpolate']
@@ -89,7 +82,14 @@ const racGrammar: Prism.Grammar = {
     },
   ],
 
-  // Section keyword + declaration name (e.g., "parameter niit_rate:")
+  // Triple-quoted statute text (docstrings)
+  'statute-text': {
+    pattern: /"""[\s\S]*?"""/,
+    greedy: true,
+    alias: 'string',
+  },
+
+  // Section keyword + declaration name (e.g., "enum filing_status:")
   // Must be matched as a single pattern to capture the declaration name
   'section-declaration': {
     pattern: new RegExp(
@@ -101,6 +101,17 @@ const racGrammar: Prism.Grammar = {
       'section-keyword': new RegExp(`^(?:${sectionKeywords.join('|')})`),
       'declaration-name': {
         pattern: /(?<=\s)[\w]+(?=\s*:)/,
+      },
+      punctuation: /:/,
+    },
+  },
+
+  // Bare definition: identifier at start of line followed by colon (e.g., "niit_rate:")
+  'bare-declaration': {
+    pattern: /^[a-zA-Z_]\w*\s*:/m,
+    inside: {
+      'declaration-name': {
+        pattern: /^[a-zA-Z_]\w*/,
       },
       punctuation: /:/,
     },
