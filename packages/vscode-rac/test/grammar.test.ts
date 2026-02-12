@@ -291,32 +291,29 @@ describe("2. Declaration keywords get keyword.declaration scope", () => {
     expect(patterns.length).toBeGreaterThan(0);
   });
 
-  it("matches 'parameter niit_rate:'", () => {
+  it("does NOT match 'parameter niit_rate:' as keyword.declaration (removed in unified syntax)", () => {
     const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
     const matched = patterns.some(
       (p) =>
         (p.match && testRegexMatches(p.match, "parameter niit_rate:")) ||
         (p.begin && testRegexMatches(p.begin, "parameter niit_rate:"))
     );
-    expect(matched).toBe(true);
+    expect(matched).toBe(false);
   });
 
-  it("matches 'variable net_investment_income_tax:'", () => {
+  it("does NOT match 'variable net_investment_income_tax:' as keyword.declaration (removed in unified syntax)", () => {
     const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
     const matched = patterns.some(
       (p) =>
         (p.match && testRegexMatches(p.match, "variable net_investment_income_tax:")) ||
         (p.begin && testRegexMatches(p.begin, "variable net_investment_income_tax:"))
     );
-    expect(matched).toBe(true);
+    expect(matched).toBe(false);
   });
 
   it("matches all declaration keywords", () => {
     const declarationKeywords = [
       "text:",
-      "parameter foo:",
-      "variable bar:",
-      "input baz:",
       "enum qux:",
       "function quux:",
       "versions:",
@@ -369,19 +366,19 @@ describe("4. Attribute keys get support.type.property-name scope", () => {
     expect(matched).toBe(true);
   });
 
-  it("matches indented 'formula:'", () => {
+  it("does NOT match indented 'formula:' (removed in unified syntax)", () => {
     const patterns = findPatternsWithScope(grammar, "support.type.property-name.rac");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "  formula:")
     );
-    expect(matched).toBe(true);
+    expect(matched).toBe(false);
   });
 
   it("matches all known attribute keys", () => {
     const attrKeys = [
-      "description", "unit", "source", "reference", "values",
+      "description", "unit", "source", "reference",
       "imports", "entity", "period", "dtype", "label", "default",
-      "formula", "tests", "name", "inputs", "expect", "metadata",
+      "name", "metadata",
       "enacted_by", "reverts_to", "parameters", "threshold", "cap",
       "defined_for", "private", "internal",
     ];
@@ -451,7 +448,7 @@ describe("6. Formula keywords get keyword.control scope", () => {
     const keywords = [
       "if", "else", "elif", "return", "for", "break",
       "and", "or", "not", "in", "as",
-      "True", "False", "None", "let", "match", "case",
+      "True", "False", "None", "let", "match", "case", "from",
     ];
     const patterns = findPatternsWithScope(grammar, "keyword.control.rac");
     const unmatched: string[] = [];

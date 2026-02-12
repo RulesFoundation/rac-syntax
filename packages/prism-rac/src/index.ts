@@ -6,9 +6,6 @@ import Prism from 'prismjs'
 
 const sectionKeywords = [
   'text',
-  'parameter',
-  'variable',
-  'input',
   'enum',
   'function',
   'versions',
@@ -24,18 +21,13 @@ const attributeKeys = [
   'unit',
   'source',
   'reference',
-  'values',
   'imports',
   'entity',
   'period',
   'dtype',
   'label',
   'default',
-  'formula',
-  'tests',
   'name',
-  'inputs',
-  'expect',
   'metadata',
   'enacted_by',
   'reverts_to',
@@ -65,6 +57,7 @@ const formulaKeywords = [
   'let',
   'match',
   'case',
+  'from',
 ]
 
 const formulaBuiltins = ['max', 'min', 'abs', 'round', 'sum', 'len', 'interpolate']
@@ -89,18 +82,31 @@ const racGrammar: Prism.Grammar = {
     },
   ],
 
-  // Section keyword + declaration name (e.g., "parameter niit_rate:")
-  // Must be matched as a single pattern to capture the declaration name
+  'statute-text': {
+    pattern: /"""[\s\S]*?"""/,
+    greedy: true,
+    alias: 'string',
+  },
+
   'section-declaration': {
     pattern: new RegExp(
       `^(?:${sectionKeywords.join('|')})(?:\\s+[\\w]+)?\\s*:`,
       'm'
     ),
-    lookbehind: false,
     inside: {
       'section-keyword': new RegExp(`^(?:${sectionKeywords.join('|')})`),
       'declaration-name': {
         pattern: /(?<=\s)[\w]+(?=\s*:)/,
+      },
+      punctuation: /:/,
+    },
+  },
+
+  'bare-declaration': {
+    pattern: /^[a-zA-Z_]\w*\s*:/m,
+    inside: {
+      'declaration-name': {
+        pattern: /^[a-zA-Z_]\w*/,
       },
       punctuation: /:/,
     },

@@ -68,9 +68,6 @@ describe('prism-rac grammar registration', () => {
 describe('top-level declarations / section keywords', () => {
   const declarations = [
     'text',
-    'parameter',
-    'variable',
-    'input',
     'enum',
     'function',
     'versions',
@@ -87,21 +84,31 @@ describe('top-level declarations / section keywords', () => {
       expect(hasToken(code, 'section-keyword', keyword)).toBe(true)
     })
   }
+
+  // parameter, variable, input are no longer section keywords in unified syntax
+  const removedKeywords = ['parameter', 'variable', 'input']
+
+  for (const keyword of removedKeywords) {
+    it(`should NOT tokenize "${keyword}" as a section keyword`, () => {
+      const code = `${keyword} some_name:`
+      expect(hasToken(code, 'section-keyword', keyword)).toBe(false)
+    })
+  }
 })
 
 describe('declaration names', () => {
-  it('should tokenize the name after "parameter" as a declaration-name', () => {
-    const code = 'parameter niit_rate:'
+  it('should tokenize bare "niit_rate:" as a declaration-name', () => {
+    const code = 'niit_rate:'
     expect(hasToken(code, 'declaration-name', 'niit_rate')).toBe(true)
   })
 
-  it('should tokenize the name after "variable" as a declaration-name', () => {
-    const code = 'variable earned_income_credit:'
+  it('should tokenize bare "earned_income_credit:" as a declaration-name', () => {
+    const code = 'earned_income_credit:'
     expect(hasToken(code, 'declaration-name', 'earned_income_credit')).toBe(true)
   })
 
-  it('should tokenize the name after "input" as a declaration-name', () => {
-    const code = 'input filing_status:'
+  it('should tokenize bare "filing_status:" as a declaration-name', () => {
+    const code = 'filing_status:'
     expect(hasToken(code, 'declaration-name', 'filing_status')).toBe(true)
   })
 
@@ -127,18 +134,13 @@ describe('attribute keys', () => {
     'unit',
     'source',
     'reference',
-    'values',
     'imports',
     'entity',
     'period',
     'dtype',
     'label',
     'default',
-    'formula',
-    'tests',
     'name',
-    'inputs',
-    'expect',
     'metadata',
     'enacted_by',
     'reverts_to',
@@ -154,6 +156,16 @@ describe('attribute keys', () => {
     it(`should tokenize "${attr}:" as an attr-name`, () => {
       const code = `  ${attr}: some_value`
       expect(hasToken(code, 'attr-name', attr)).toBe(true)
+    })
+  }
+
+  // values, formula, tests, inputs, expect are no longer attribute keywords in unified syntax
+  const removedAttributes = ['values', 'formula', 'tests', 'inputs', 'expect']
+
+  for (const attr of removedAttributes) {
+    it(`should NOT tokenize "${attr}:" as an attr-name`, () => {
+      const code = `  ${attr}: some_value`
+      expect(hasToken(code, 'attr-name', attr)).toBe(false)
     })
   }
 })
@@ -177,6 +189,7 @@ describe('formula keywords', () => {
     'let',
     'match',
     'case',
+    'from',
   ]
 
   for (const kw of keywords) {
@@ -390,7 +403,7 @@ describe('full RAC example', () => {
     const code = `# Net Investment Income Tax (NIIT)
 # IRC Section 1411
 
-parameter niit_rate:
+niit_rate:
   description: "Net Investment Income Tax rate"
   unit: Rate
   entity: TaxUnit
@@ -398,7 +411,7 @@ parameter niit_rate:
   values:
     2013-01-01: 0.038
 
-variable net_investment_income_tax:
+net_investment_income_tax:
   description: "Net investment income tax amount"
   entity: TaxUnit
   period: Year
@@ -432,15 +445,14 @@ import:
     const flat = flattenTokens(tokens)
 
     // Verify key tokens are present
-    expect(flat.some((t) => t.type === 'section-keyword' && t.content === 'parameter')).toBe(true)
-    expect(flat.some((t) => t.type === 'section-keyword' && t.content === 'variable')).toBe(true)
+    // parameter/variable are no longer section keywords; bare names are declaration-names
     expect(flat.some((t) => t.type === 'section-keyword' && t.content === 'import')).toBe(true)
     expect(flat.some((t) => t.type === 'declaration-name' && t.content === 'niit_rate')).toBe(true)
     expect(
       flat.some((t) => t.type === 'declaration-name' && t.content === 'net_investment_income_tax')
     ).toBe(true)
     expect(flat.some((t) => t.type === 'attr-name' && t.content === 'description')).toBe(true)
-    expect(flat.some((t) => t.type === 'attr-name' && t.content === 'formula')).toBe(true)
+    // formula is no longer an attribute keyword
     expect(flat.some((t) => t.type === 'string')).toBe(true)
     expect(flat.some((t) => t.type === 'number')).toBe(true)
     expect(flat.some((t) => t.type === 'comment')).toBe(true)
