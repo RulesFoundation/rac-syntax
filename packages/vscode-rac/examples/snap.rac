@@ -21,7 +21,7 @@ parameter contribution_rate:
   values:
     2024-01-01: 0.30
 
-variable snap_allotment:
+snap_allotment:
   imports: [7/2014#household_size, 7/2014/a#snap_eligible]
   entity: Household
   period: Month
