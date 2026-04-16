@@ -3,6 +3,16 @@ import Prism from 'prismjs'
 // ─── RAC Grammar ──────────────────────────────────────────────────────────────
 // RAC (Rules as Code) is a YAML-structured DSL with Python-like formula
 // expressions used to encode tax and benefit statutes.
+//
+// CANONICAL KEYWORD LIST: the token arrays below (sectionKeywords, attributeKeys,
+// formulaKeywords, formulaBuiltins, entityTypes, periodTypes, dataTypes) are the
+// source of truth for RAC's vocabulary. When you change them here, also update:
+//
+//   1. packages/vscode-rac/syntaxes/rac.tmLanguage.json
+//        TextMate grammar used by the VS Code extension.
+//   2. packages/prism-catala/src/index.ts (only if the change affects Catala too).
+//
+// See the root README.md section "Keeping packages in sync" for context.
 
 const sectionKeywords = [
   'text',
