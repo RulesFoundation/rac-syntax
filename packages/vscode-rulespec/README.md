@@ -1,4 +1,4 @@
-# RuleSpec — Rules as Code (VS Code extension)
+# RuleSpec VS Code Extension
 
 Syntax highlighting and file icons for [RuleSpec](https://axiom-foundation.org) files in VS Code.
 

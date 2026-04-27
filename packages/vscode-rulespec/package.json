@@ -14,12 +14,12 @@
     "vscode": "^1.75.0"
   },
   "categories": ["Programming Languages"],
-  "keywords": ["rulespec", "rules-as-code", "syntax", "highlighting", "tax", "policy"],
+  "keywords": ["rulespec", "syntax", "highlighting", "tax", "policy"],
   "contributes": {
     "languages": [
       {
         "id": "rulespec",
-        "aliases": ["RuleSpec", "Rules as Code"],
+        "aliases": ["RuleSpec"],
         "extensions": [".rulespec"],
         "configuration": "./language-configuration.json",
         "icon": {

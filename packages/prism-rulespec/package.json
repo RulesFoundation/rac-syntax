@@ -9,7 +9,7 @@
     "directory": "packages/prism-rulespec"
   },
   "homepage": "https://axiom-foundation.org",
-  "keywords": ["prismjs", "syntax", "highlighting", "rulespec", "rules-as-code", "tax", "policy"],
+  "keywords": ["prismjs", "syntax", "highlighting", "rulespec", "tax", "policy"],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
