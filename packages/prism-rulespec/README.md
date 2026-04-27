@@ -1,23 +1,23 @@
-# prism-rac
+# prism-rulespec
 
-[Prism.js](https://prismjs.com/) syntax highlighting for RAC (Rules as Code) — a YAML-structured DSL with Python-like formula expressions used to encode tax and benefit statutes.
+[Prism.js](https://prismjs.com/) syntax highlighting for RuleSpec — a YAML-structured DSL with Python-like formula expressions used to encode tax and benefit statutes.
 
-Part of [The Axiom Foundation](https://rules.foundation) Rules Foundation tooling.
+Part of [The Axiom Foundation](https://axiom-foundation.org) Axiom Foundation tooling.
 
 ## Install
 
 ```bash
-bun add prism-rac prismjs
-# or: npm install prism-rac prismjs
+bun add prism-rulespec prismjs
+# or: npm install prism-rulespec prismjs
 ```
 
 ## Usage
 
-Import the package to register the `rac` language with Prism at module load time:
+Import the package to register the `rulespec` language with Prism at module load time:
 
 ```ts
 import Prism from 'prismjs'
-import 'prism-rac'
+import 'prism-rulespec'
 
 const code = `module: income_tax
 version: 2024
@@ -28,22 +28,22 @@ function:
   dtype: Money
 `
 
-const html = Prism.highlight(code, Prism.languages.rac, 'rac')
+const html = Prism.highlight(code, Prism.languages.rulespec, 'rulespec')
 ```
 
 You can also import the grammar directly if you prefer to register it yourself:
 
 ```ts
-import { racGrammar } from 'prism-rac'
+import { rulespecGrammar } from 'prism-rulespec'
 import Prism from 'prismjs'
 
-Prism.languages.rac = racGrammar
+Prism.languages.rulespec = rulespecGrammar
 ```
 
 A dark theme CSS file is included and can be loaded alongside Prism's own themes:
 
 ```ts
-import 'prism-rac/themes/dark.css'
+import 'prism-rulespec/themes/dark.css'
 ```
 
 ## Supported tokens
@@ -61,11 +61,11 @@ The grammar recognises the following token classes:
 
 ## Versioning
 
-The RAC grammar evolves alongside the [RAC DSL](https://github.com/RulesFoundation/rac). This package follows semantic versioning, with minor bumps for additive grammar changes and major bumps for breaking token-class renames.
+The RuleSpec grammar evolves alongside the [RuleSpec DSL](https://github.com/TheAxiomFoundation/rulespec). This package follows semantic versioning, with minor bumps for additive grammar changes and major bumps for breaking token-class renames.
 
 ## Keeping in sync
 
-This repo also ships [`prism-catala`](../prism-catala) and [`vscode-rac`](../vscode-rac). The canonical RAC keyword list lives in [`src/index.ts`](./src/index.ts). When adding keywords, update the VS Code TextMate grammar in `packages/vscode-rac/syntaxes/rac.tmLanguage.json` as well.
+This repo also ships [`prism-catala`](../prism-catala) and [`vscode-rulespec`](../vscode-rulespec). The canonical RuleSpec keyword list lives in [`src/index.ts`](./src/index.ts). When adding keywords, update the VS Code TextMate grammar in `packages/vscode-rulespec/syntaxes/rulespec.tmLanguage.json` as well.
 
 ## License
 

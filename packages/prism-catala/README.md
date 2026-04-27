@@ -2,7 +2,7 @@
 
 [Prism.js](https://prismjs.com/) syntax highlighting for [Catala](https://catala-lang.org) — a literate programming language for law developed by DGFIP and Inria.
 
-Part of [The Axiom Foundation](https://rules.foundation) Rules Foundation tooling.
+Part of [The Axiom Foundation](https://axiom-foundation.org) Axiom Foundation tooling.
 
 ## Install
 
@@ -62,7 +62,7 @@ This package follows semantic versioning. Minor bumps for additive grammar chang
 
 ## Keeping in sync
 
-This repo also ships [`prism-rac`](../prism-rac) and [`vscode-rac`](../vscode-rac). See the [root README](../../README.md) for notes on keeping grammar definitions in sync across packages.
+This repo also ships [`prism-rulespec`](../prism-rulespec) and [`vscode-rulespec`](../vscode-rulespec). See the [root README](../../README.md) for notes on keeping grammar definitions in sync across packages.
 
 ## License
 

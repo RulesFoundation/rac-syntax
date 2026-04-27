@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "RAC",
-  "scopeName": "source.rac",
-  "fileTypes": ["rac"],
+  "name": "RuleSpec",
+  "scopeName": "source.rulespec",
+  "fileTypes": ["rulespec"],
   "patterns": [
     { "include": "#comments" },
     { "include": "#statute-text" },
@@ -25,11 +25,11 @@
     "comments": {
       "patterns": [
         {
-          "name": "comment.line.number-sign.rac",
+          "name": "comment.line.number-sign.rulespec",
           "match": "#.*$"
         },
         {
-          "name": "comment.line.double-slash.rac",
+          "name": "comment.line.double-slash.rulespec",
           "match": "//.*$"
         }
       ]
@@ -37,14 +37,14 @@
     "statute-text": {
       "patterns": [
         {
-          "name": "string.quoted.triple.rac",
+          "name": "string.quoted.triple.rulespec",
           "begin": "\"\"\"",
           "end": "\"\"\"",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.rac" }
+            "0": { "name": "punctuation.definition.string.begin.rulespec" }
           },
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.rac" }
+            "0": { "name": "punctuation.definition.string.end.rulespec" }
           }
         }
       ]
@@ -54,23 +54,23 @@
         {
           "match": "^(text|versions|references)\\s*(:)",
           "captures": {
-            "1": { "name": "keyword.declaration.rac" },
-            "2": { "name": "punctuation.separator.colon.rac" }
+            "1": { "name": "keyword.declaration.rulespec" },
+            "2": { "name": "punctuation.separator.colon.rulespec" }
           }
         },
         {
           "match": "^(enum|function|module|version|jurisdiction|import)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(:)",
           "captures": {
-            "1": { "name": "keyword.declaration.rac" },
-            "2": { "name": "entity.name.function.rac" },
-            "3": { "name": "punctuation.separator.colon.rac" }
+            "1": { "name": "keyword.declaration.rulespec" },
+            "2": { "name": "entity.name.function.rulespec" },
+            "3": { "name": "punctuation.separator.colon.rulespec" }
           }
         },
         {
           "match": "^([a-zA-Z_][a-zA-Z0-9_]*)\\s*(:)",
           "captures": {
-            "1": { "name": "entity.name.function.rac" },
-            "2": { "name": "punctuation.separator.colon.rac" }
+            "1": { "name": "entity.name.function.rulespec" },
+            "2": { "name": "punctuation.separator.colon.rulespec" }
           }
         }
       ]
@@ -80,8 +80,8 @@
         {
           "match": "^\\s+(description|unit|source|reference|imports|entity|period|dtype|label|default|name|metadata|enacted_by|reverts_to|parameters|threshold|cap|defined_for|private|internal)\\s*(:)",
           "captures": {
-            "1": { "name": "support.type.property-name.rac" },
-            "2": { "name": "punctuation.separator.colon.rac" }
+            "1": { "name": "support.type.property-name.rulespec" },
+            "2": { "name": "punctuation.separator.colon.rulespec" }
           }
         }
       ]
@@ -89,7 +89,7 @@
     "types": {
       "patterns": [
         {
-          "name": "support.type.rac",
+          "name": "support.type.rulespec",
           "match": "\\b(Person|TaxUnit|Household|Family|SPMUnit|Year|Month|Day|Instant|Money|Rate|Boolean|Integer|String|USD)\\b"
         }
       ]
@@ -97,7 +97,7 @@
     "keywords": {
       "patterns": [
         {
-          "name": "keyword.control.rac",
+          "name": "keyword.control.rulespec",
           "match": "\\b(if|else|elif|return|for|break|and|or|not|in|as|True|False|None|let|match|case|from)\\b"
         }
       ]
@@ -105,7 +105,7 @@
     "builtins": {
       "patterns": [
         {
-          "name": "support.function.builtin.rac",
+          "name": "support.function.builtin.rulespec",
           "match": "\\b(max|min|abs|round|sum|len|interpolate)\\b"
         }
       ]
@@ -113,35 +113,35 @@
     "strings": {
       "patterns": [
         {
-          "name": "string.quoted.double.rac",
+          "name": "string.quoted.double.rulespec",
           "begin": "\"",
           "end": "\"",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.rac" }
+            "0": { "name": "punctuation.definition.string.begin.rulespec" }
           },
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.rac" }
+            "0": { "name": "punctuation.definition.string.end.rulespec" }
           },
           "patterns": [
             {
-              "name": "constant.character.escape.rac",
+              "name": "constant.character.escape.rulespec",
               "match": "\\\\."
             }
           ]
         },
         {
-          "name": "string.quoted.single.rac",
+          "name": "string.quoted.single.rulespec",
           "begin": "'",
           "end": "'",
           "beginCaptures": {
-            "0": { "name": "punctuation.definition.string.begin.rac" }
+            "0": { "name": "punctuation.definition.string.begin.rulespec" }
           },
           "endCaptures": {
-            "0": { "name": "punctuation.definition.string.end.rac" }
+            "0": { "name": "punctuation.definition.string.end.rulespec" }
           },
           "patterns": [
             {
-              "name": "constant.character.escape.rac",
+              "name": "constant.character.escape.rulespec",
               "match": "\\\\."
             }
           ]
@@ -151,7 +151,7 @@
     "block-scalars": {
       "patterns": [
         {
-          "name": "keyword.operator.block-scalar.rac",
+          "name": "keyword.operator.block-scalar.rulespec",
           "match": "(?<=:\\s)[|>](?:\\s*$)"
         }
       ]
@@ -159,11 +159,11 @@
     "numbers": {
       "patterns": [
         {
-          "name": "constant.numeric.float.rac",
+          "name": "constant.numeric.float.rulespec",
           "match": "\\b\\d+\\.\\d+\\b"
         },
         {
-          "name": "constant.numeric.integer.rac",
+          "name": "constant.numeric.integer.rulespec",
           "match": "\\b\\d+\\b"
         }
       ]
@@ -171,7 +171,7 @@
     "dates": {
       "patterns": [
         {
-          "name": "constant.numeric.date.rac",
+          "name": "constant.numeric.date.rulespec",
           "match": "\\b\\d{4}-\\d{2}-\\d{2}\\b"
         }
       ]
@@ -179,7 +179,7 @@
     "percentages": {
       "patterns": [
         {
-          "name": "constant.numeric.percentage.rac",
+          "name": "constant.numeric.percentage.rulespec",
           "match": "\\b\\d+(\\.\\d+)?%"
         }
       ]
@@ -187,7 +187,7 @@
     "imports": {
       "patterns": [
         {
-          "name": "string.unquoted.import-path.rac",
+          "name": "string.unquoted.import-path.rulespec",
           "match": "\\b\\d+(/[a-zA-Z0-9_]+)+#[a-zA-Z_][a-zA-Z0-9_]*\\b"
         }
       ]
@@ -195,7 +195,7 @@
     "operators": {
       "patterns": [
         {
-          "name": "keyword.operator.rac",
+          "name": "keyword.operator.rulespec",
           "match": "==|!=|<=|>=|=>|[=<>!+\\-*/%?]"
         }
       ]
@@ -203,7 +203,7 @@
     "booleans": {
       "patterns": [
         {
-          "name": "constant.language.boolean.rac",
+          "name": "constant.language.boolean.rulespec",
           "match": "\\b(true|false)\\b"
         }
       ]
@@ -211,7 +211,7 @@
     "punctuation": {
       "patterns": [
         {
-          "name": "punctuation.rac",
+          "name": "punctuation.rulespec",
           "match": "[{}\\[\\](),:.]"
         }
       ]

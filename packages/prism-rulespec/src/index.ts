@@ -1,14 +1,14 @@
 import Prism from 'prismjs'
 
-// ─── RAC Grammar ──────────────────────────────────────────────────────────────
-// RAC (Rules as Code) is a YAML-structured DSL with Python-like formula
+// ─── RuleSpec Grammar ──────────────────────────────────────────────────────────────
+// RuleSpec is a YAML-structured DSL with Python-like formula
 // expressions used to encode tax and benefit statutes.
 //
 // CANONICAL KEYWORD LIST: the token arrays below (sectionKeywords, attributeKeys,
 // formulaKeywords, formulaBuiltins, entityTypes, periodTypes, dataTypes) are the
-// source of truth for RAC's vocabulary. When you change them here, also update:
+// source of truth for RuleSpec vocabulary. When you change them here, also update:
 //
-//   1. packages/vscode-rac/syntaxes/rac.tmLanguage.json
+//   1. packages/vscode-rulespec/syntaxes/rulespec.tmLanguage.json
 //        TextMate grammar used by the VS Code extension.
 //   2. packages/prism-catala/src/index.ts (only if the change affects Catala too).
 //
@@ -78,8 +78,8 @@ const periodTypes = ['Year', 'Month', 'Day', 'Instant']
 
 const dataTypes = ['Money', 'Rate', 'Boolean', 'Integer', 'String', 'USD']
 
-// Build the RAC grammar definition
-const racGrammar: Prism.Grammar = {
+// Build the RuleSpec grammar definition
+const rulespecGrammar: Prism.Grammar = {
   // Comments: # and // style
   comment: [
     {
@@ -214,9 +214,9 @@ const racGrammar: Prism.Grammar = {
   punctuation: /[{}[\](),:\.]/,
 }
 
-// Register the RAC grammar
-Prism.languages.rac = racGrammar
+// Register the RuleSpec grammar
+Prism.languages.rulespec = rulespecGrammar
 
 // ─── Exports ──────────────────────────────────────────────────────────────────
-export { racGrammar }
-export default racGrammar
+export { rulespecGrammar }
+export default rulespecGrammar

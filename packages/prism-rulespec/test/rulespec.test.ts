@@ -42,25 +42,25 @@ function findTokensByType(tokens: PrismToken[], type: string): Array<{ type: str
  * containing the expected content.
  */
 function hasToken(code: string, type: string, content: string): boolean {
-  const tokens = Prism.tokenize(code, Prism.languages.rac)
+  const tokens = Prism.tokenize(code, Prism.languages.rulespec)
   const matching = findTokensByType(tokens, type)
   return matching.some((t) => t.content === content)
 }
 
 /**
- * Tokenize a string with the RAC grammar and return all tokens flattened.
+ * Tokenize a string with the RuleSpec grammar and return all tokens flattened.
  */
 function tokenize(code: string): Array<{ type: string; content: string }> {
-  const tokens = Prism.tokenize(code, Prism.languages.rac)
+  const tokens = Prism.tokenize(code, Prism.languages.rulespec)
   return flattenTokens(tokens)
 }
 
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
-describe('prism-rac grammar registration', () => {
-  it('should register the rac grammar on Prism.languages', () => {
-    expect(Prism.languages.rac).toBeDefined()
-    expect(typeof Prism.languages.rac).toBe('object')
+describe('prism-rulespec grammar registration', () => {
+  it('should register the rulespec grammar on Prism.languages', () => {
+    expect(Prism.languages.rulespec).toBeDefined()
+    expect(typeof Prism.languages.rulespec).toBe('object')
   })
 
 })
@@ -412,8 +412,8 @@ describe('YAML booleans', () => {
   })
 })
 
-describe('full RAC example', () => {
-  it('should highlight a complete RAC file without errors', () => {
+describe('full RuleSpec example', () => {
+  it('should highlight a complete RuleSpec file without errors', () => {
     const code = `# Net Investment Income Tax (NIIT)
 # IRC Section 1411
 
@@ -451,7 +451,7 @@ import:
     - 26/32#eitc as federal_eitc
 `
 
-    const tokens = Prism.tokenize(code, Prism.languages.rac)
+    const tokens = Prism.tokenize(code, Prism.languages.rulespec)
     expect(tokens).toBeDefined()
     expect(Array.isArray(tokens)).toBe(true)
     expect(tokens.length).toBeGreaterThan(0)
@@ -484,13 +484,13 @@ import:
 
 describe('edge cases', () => {
   it('should handle empty input', () => {
-    const tokens = Prism.tokenize('', Prism.languages.rac)
+    const tokens = Prism.tokenize('', Prism.languages.rulespec)
     expect(tokens).toBeDefined()
     expect(Array.isArray(tokens)).toBe(true)
   })
 
   it('should handle whitespace-only input', () => {
-    const tokens = Prism.tokenize('   \n\n  ', Prism.languages.rac)
+    const tokens = Prism.tokenize('   \n\n  ', Prism.languages.rulespec)
     expect(tokens).toBeDefined()
   })
 
@@ -498,12 +498,12 @@ describe('edge cases', () => {
     // "description" at start of line should not match as attr-name
     // since it's not indented — but it could also be a section keyword
     // Test that the tokenizer handles it gracefully
-    const tokens = Prism.tokenize('description: hello', Prism.languages.rac)
+    const tokens = Prism.tokenize('description: hello', Prism.languages.rulespec)
     expect(tokens).toBeDefined()
   })
 
   it('should handle declaration without colon gracefully', () => {
-    const tokens = Prism.tokenize('parameter standalone', Prism.languages.rac)
+    const tokens = Prism.tokenize('parameter standalone', Prism.languages.rulespec)
     expect(tokens).toBeDefined()
   })
 })

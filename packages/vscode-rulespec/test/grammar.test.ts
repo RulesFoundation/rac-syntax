@@ -3,7 +3,7 @@ import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 const ROOT = join(import.meta.dir, "..");
-const GRAMMAR_PATH = join(ROOT, "syntaxes", "rac.tmLanguage.json");
+const GRAMMAR_PATH = join(ROOT, "syntaxes", "rulespec.tmLanguage.json");
 const LANG_CONFIG_PATH = join(ROOT, "language-configuration.json");
 const PACKAGE_JSON_PATH = join(ROOT, "package.json");
 
@@ -107,18 +107,18 @@ describe("Extension files exist", () => {
     expect(existsSync(LANG_CONFIG_PATH)).toBe(true);
   });
 
-  it("rac.tmLanguage.json exists", () => {
+  it("rulespec.tmLanguage.json exists", () => {
     expect(existsSync(GRAMMAR_PATH)).toBe(true);
   });
 
   it("example files exist", () => {
-    expect(existsSync(join(ROOT, "examples", "niit.rac"))).toBe(true);
-    expect(existsSync(join(ROOT, "examples", "snap.rac"))).toBe(true);
+    expect(existsSync(join(ROOT, "examples", "niit.rulespec.yaml"))).toBe(true);
+    expect(existsSync(join(ROOT, "examples", "snap.rulespec.yaml"))).toBe(true);
   });
 
   it("icon files exist", () => {
-    expect(existsSync(join(ROOT, "icons", "rac-light.svg"))).toBe(true);
-    expect(existsSync(join(ROOT, "icons", "rac-dark.svg"))).toBe(true);
+    expect(existsSync(join(ROOT, "icons", "rulespec-light.svg"))).toBe(true);
+    expect(existsSync(join(ROOT, "icons", "rulespec-dark.svg"))).toBe(true);
   });
 });
 
@@ -130,24 +130,24 @@ describe("package.json structure", () => {
   });
 
   it("has correct name", () => {
-    expect(pkg.name).toBe("vscode-rac");
+    expect(pkg.name).toBe("vscode-rulespec");
   });
 
-  it("registers rac language", () => {
+  it("registers rulespec language", () => {
     const langs = pkg.contributes.languages;
     expect(langs).toBeArray();
     expect(langs.length).toBeGreaterThanOrEqual(1);
-    const rac = langs.find((l: any) => l.id === "rac");
-    expect(rac).toBeDefined();
-    expect(rac.extensions).toContain(".rac");
+    const rulespec = langs.find((l: any) => l.id === "rulespec");
+    expect(rulespec).toBeDefined();
+    expect(rulespec.extensions).toContain(".rulespec");
   });
 
-  it("registers grammar for rac language", () => {
+  it("registers grammar for rulespec language", () => {
     const grammars = pkg.contributes.grammars;
     expect(grammars).toBeArray();
-    const racGrammar = grammars.find((g: any) => g.language === "rac");
-    expect(racGrammar).toBeDefined();
-    expect(racGrammar.scopeName).toBe("source.rac");
+    const rulespecGrammar = grammars.find((g: any) => g.language === "rulespec");
+    expect(rulespecGrammar).toBeDefined();
+    expect(rulespecGrammar.scopeName).toBe("source.rulespec");
   });
 });
 
@@ -188,11 +188,11 @@ describe("TextMate Grammar structure", () => {
   });
 
   it("has correct scopeName", () => {
-    expect(grammar.scopeName).toBe("source.rac");
+    expect(grammar.scopeName).toBe("source.rulespec");
   });
 
   it("has correct fileTypes", () => {
-    expect(grammar.fileTypes).toContain("rac");
+    expect(grammar.fileTypes).toContain("rulespec");
   });
 
   it("has patterns array", () => {
@@ -268,26 +268,26 @@ describe("1. Comments get comment.line scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns for # comments with comment.line.number-sign.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "comment.line.number-sign.rac");
+  it("has patterns for # comments with comment.line.number-sign.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "comment.line.number-sign.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("# comment regex matches '# This is a comment'", () => {
-    const patterns = findPatternsWithScope(grammar, "comment.line.number-sign.rac");
+    const patterns = findPatternsWithScope(grammar, "comment.line.number-sign.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "# This is a comment")
     );
     expect(matched).toBe(true);
   });
 
-  it("has patterns for // comments with comment.line.double-slash.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "comment.line.double-slash.rac");
+  it("has patterns for // comments with comment.line.double-slash.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "comment.line.double-slash.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("// comment regex matches '// This is a comment'", () => {
-    const patterns = findPatternsWithScope(grammar, "comment.line.double-slash.rac");
+    const patterns = findPatternsWithScope(grammar, "comment.line.double-slash.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "// This is a comment")
     );
@@ -300,13 +300,13 @@ describe("2. Declaration keywords get keyword.declaration scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with keyword.declaration.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
+  it("has patterns with keyword.declaration.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("does NOT match 'parameter niit_rate:' as keyword.declaration (removed in unified syntax)", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rulespec");
     const matched = patterns.some(
       (p) =>
         (p.match && testRegexMatches(p.match, "parameter niit_rate:")) ||
@@ -316,7 +316,7 @@ describe("2. Declaration keywords get keyword.declaration scope", () => {
   });
 
   it("does NOT match 'variable net_investment_income_tax:' as keyword.declaration (removed in unified syntax)", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rulespec");
     const matched = patterns.some(
       (p) =>
         (p.match && testRegexMatches(p.match, "variable net_investment_income_tax:")) ||
@@ -337,7 +337,7 @@ describe("2. Declaration keywords get keyword.declaration scope", () => {
       "import i:",
       "references:",
     ];
-    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.declaration.rulespec");
     const unmatched: string[] = [];
     for (const kw of declarationKeywords) {
       const matched = patterns.some(
@@ -356,8 +356,8 @@ describe("3. Declaration names get entity.name.function scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with entity.name.function.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "entity.name.function.rac");
+  it("has patterns with entity.name.function.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "entity.name.function.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 });
@@ -367,13 +367,13 @@ describe("4. Attribute keys get support.type.property-name scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with support.type.property-name.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rac");
+  it("has patterns with support.type.property-name.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches indented 'description:'", () => {
-    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rac");
+    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "  description:")
     );
@@ -381,7 +381,7 @@ describe("4. Attribute keys get support.type.property-name scope", () => {
   });
 
   it("does NOT match indented 'formula:' (removed in unified syntax)", () => {
-    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rac");
+    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "  formula:")
     );
@@ -396,7 +396,7 @@ describe("4. Attribute keys get support.type.property-name scope", () => {
       "enacted_by", "reverts_to", "parameters", "threshold", "cap",
       "defined_for", "private", "internal",
     ];
-    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rac");
+    const patterns = findPatternsWithScope(grammar, "support.type.property-name.rulespec");
     const unmatched: string[] = [];
     for (const key of attrKeys) {
       const testStr = `  ${key}:`;
@@ -414,14 +414,14 @@ describe("5. Types get support.type scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with support.type.rac scope (not property-name)", () => {
-    const patterns = findPatternsWithScope(grammar, "support.type.rac");
+  it("has patterns with support.type.rulespec scope (not property-name)", () => {
+    const patterns = findPatternsWithScope(grammar, "support.type.rulespec");
     // Filter out property-name patterns
     const typePatterns = patterns.filter(
       (p) =>
-        (p.name && p.name === "support.type.rac") ||
+        (p.name && p.name === "support.type.rulespec") ||
         (p.captures &&
-          Object.values(p.captures).some((c) => c.name === "support.type.rac"))
+          Object.values(p.captures).some((c) => c.name === "support.type.rulespec"))
     );
     expect(typePatterns.length).toBeGreaterThan(0);
   });
@@ -432,12 +432,12 @@ describe("5. Types get support.type scope", () => {
       "Year", "Month", "Day", "Instant",
       "Money", "Rate", "Boolean", "Integer", "String", "USD",
     ];
-    // Find patterns that specifically target support.type.rac (not property-name)
+    // Find patterns that specifically target support.type.rulespec (not property-name)
     const allPatterns = getAllPatterns(grammar);
     const unmatched: string[] = [];
     for (const type of types) {
       const matched = allPatterns.some((p) => {
-        if (p.name === "support.type.rac" && p.match) {
+        if (p.name === "support.type.rulespec" && p.match) {
           return testRegexMatches(p.match, type);
         }
         return false;
@@ -453,8 +453,8 @@ describe("6. Formula keywords get keyword.control scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with keyword.control.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.control.rac");
+  it("has patterns with keyword.control.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.control.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
@@ -464,7 +464,7 @@ describe("6. Formula keywords get keyword.control scope", () => {
       "and", "or", "not", "in", "as",
       "True", "False", "None", "let", "match", "case", "from",
     ];
-    const patterns = findPatternsWithScope(grammar, "keyword.control.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.control.rulespec");
     const unmatched: string[] = [];
     for (const kw of keywords) {
       const matched = patterns.some(
@@ -481,14 +481,14 @@ describe("7. Builtins get support.function.builtin scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with support.function.builtin.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "support.function.builtin.rac");
+  it("has patterns with support.function.builtin.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "support.function.builtin.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches builtin functions", () => {
     const builtins = ["max", "min", "abs", "round", "sum", "len", "interpolate"];
-    const patterns = findPatternsWithScope(grammar, "support.function.builtin.rac");
+    const patterns = findPatternsWithScope(grammar, "support.function.builtin.rulespec");
     const unmatched: string[] = [];
     for (const fn of builtins) {
       const matched = patterns.some(
@@ -506,17 +506,17 @@ describe("8. Strings get string.quoted scope", () => {
   });
 
   it("has patterns for double-quoted strings", () => {
-    const patterns = findPatternsWithScope(grammar, "string.quoted.double.rac");
+    const patterns = findPatternsWithScope(grammar, "string.quoted.double.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("has patterns for single-quoted strings", () => {
-    const patterns = findPatternsWithScope(grammar, "string.quoted.single.rac");
+    const patterns = findPatternsWithScope(grammar, "string.quoted.single.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("double-quoted string regex matches '\"hello world\"'", () => {
-    const patterns = findPatternsWithScope(grammar, "string.quoted.double.rac");
+    const patterns = findPatternsWithScope(grammar, "string.quoted.double.rulespec");
     const matched = patterns.some((p) => {
       if (p.match) return testRegexMatches(p.match, '"hello world"');
       if (p.begin) return testRegexMatches(p.begin, '"hello world"');
@@ -526,7 +526,7 @@ describe("8. Strings get string.quoted scope", () => {
   });
 
   it("single-quoted string regex matches \"'hello world'\"", () => {
-    const patterns = findPatternsWithScope(grammar, "string.quoted.single.rac");
+    const patterns = findPatternsWithScope(grammar, "string.quoted.single.rulespec");
     const matched = patterns.some((p) => {
       if (p.match) return testRegexMatches(p.match, "'hello world'");
       if (p.begin) return testRegexMatches(p.begin, "'hello world'");
@@ -568,13 +568,13 @@ describe("10. Dates get constant.numeric.date scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with constant.numeric.date.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rac");
+  it("has patterns with constant.numeric.date.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches dates like '2024-01-01'", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rac");
+    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "2024-01-01")
     );
@@ -582,7 +582,7 @@ describe("10. Dates get constant.numeric.date scope", () => {
   });
 
   it("matches dates like '2013-01-01'", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rac");
+    const patterns = findPatternsWithScope(grammar, "constant.numeric.date.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "2013-01-01")
     );
@@ -595,13 +595,13 @@ describe("11. Import paths get string.unquoted.import-path scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with string.unquoted.import-path.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "string.unquoted.import-path.rac");
+  it("has patterns with string.unquoted.import-path.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "string.unquoted.import-path.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches import paths like '26/1411/c#net_investment_income'", () => {
-    const patterns = findPatternsWithScope(grammar, "string.unquoted.import-path.rac");
+    const patterns = findPatternsWithScope(grammar, "string.unquoted.import-path.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "26/1411/c#net_investment_income")
     );
@@ -614,14 +614,14 @@ describe("12. Operators get keyword.operator scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with keyword.operator.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.operator.rac");
+  it("has patterns with keyword.operator.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches all operator patterns", () => {
     const ops = ["==", "!=", "<=", ">=", "=>", "+", "-", "*", "/", "<", ">", "=", "!", "%", "?"];
-    const patterns = findPatternsWithScope(grammar, "keyword.operator.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.rulespec");
     const unmatched: string[] = [];
     for (const op of ops) {
       const matched = patterns.some(
@@ -638,13 +638,13 @@ describe("13. Booleans get constant.language.boolean scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with constant.language.boolean.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.language.boolean.rac");
+  it("has patterns with constant.language.boolean.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "constant.language.boolean.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches 'true' and 'false'", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.language.boolean.rac");
+    const patterns = findPatternsWithScope(grammar, "constant.language.boolean.rulespec");
     const matchesTrue = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "true")
     );
@@ -661,13 +661,13 @@ describe("14. Percentages get constant.numeric.percentage scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with constant.numeric.percentage.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.numeric.percentage.rac");
+  it("has patterns with constant.numeric.percentage.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "constant.numeric.percentage.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches '34%'", () => {
-    const patterns = findPatternsWithScope(grammar, "constant.numeric.percentage.rac");
+    const patterns = findPatternsWithScope(grammar, "constant.numeric.percentage.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, "34%")
     );
@@ -680,13 +680,13 @@ describe("15. Block scalar operators get keyword.operator.block-scalar scope", (
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with keyword.operator.block-scalar.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
+  it("has patterns with keyword.operator.block-scalar.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches pipe character after colon", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, ": |")
     );
@@ -694,7 +694,7 @@ describe("15. Block scalar operators get keyword.operator.block-scalar scope", (
   });
 
   it("matches > character after colon", () => {
-    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rac");
+    const patterns = findPatternsWithScope(grammar, "keyword.operator.block-scalar.rulespec");
     const matched = patterns.some(
       (p) => p.match && testRegexMatches(p.match, ": >")
     );
@@ -707,15 +707,15 @@ describe("15b. Statute text (triple-quoted) gets string.quoted.triple scope", ()
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with string.quoted.triple.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "string.quoted.triple.rac");
+  it("has patterns with string.quoted.triple.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "string.quoted.triple.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("has begin/end captures for triple-quoted strings", () => {
     const patterns = findPatternsWithScope(
       grammar,
-      "punctuation.definition.string.begin.rac"
+      "punctuation.definition.string.begin.rulespec"
     );
     expect(patterns.length).toBeGreaterThan(0);
   });
@@ -723,7 +723,7 @@ describe("15b. Statute text (triple-quoted) gets string.quoted.triple scope", ()
   it("has end captures for triple-quoted strings", () => {
     const patterns = findPatternsWithScope(
       grammar,
-      "punctuation.definition.string.end.rac"
+      "punctuation.definition.string.end.rulespec"
     );
     expect(patterns.length).toBeGreaterThan(0);
   });
@@ -734,19 +734,19 @@ describe("15c. String escape characters get constant.character.escape scope", ()
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with constant.character.escape.rac scope", () => {
+  it("has patterns with constant.character.escape.rulespec scope", () => {
     const allPatterns = getAllPatterns(grammar);
     // Escape patterns are nested inside string patterns
     const stringPatterns = allPatterns.filter(
       (p) =>
-        p.name === "string.quoted.double.rac" ||
-        p.name === "string.quoted.single.rac"
+        p.name === "string.quoted.double.rulespec" ||
+        p.name === "string.quoted.single.rulespec"
     );
     const hasEscape = stringPatterns.some(
       (p) =>
         p.patterns &&
         p.patterns.some(
-          (inner) => inner.name === "constant.character.escape.rac"
+          (inner) => inner.name === "constant.character.escape.rulespec"
         )
     );
     expect(hasEscape).toBe(true);
@@ -755,11 +755,11 @@ describe("15c. String escape characters get constant.character.escape scope", ()
   it("escape regex matches backslash-n", () => {
     const allPatterns = getAllPatterns(grammar);
     const stringPatterns = allPatterns.filter(
-      (p) => p.name === "string.quoted.double.rac"
+      (p) => p.name === "string.quoted.double.rulespec"
     );
     const escapePattern = stringPatterns
       .flatMap((p) => p.patterns || [])
-      .find((p) => p.name === "constant.character.escape.rac");
+      .find((p) => p.name === "constant.character.escape.rulespec");
     expect(escapePattern).toBeDefined();
     expect(escapePattern!.match).toBeDefined();
     expect(testRegexMatches(escapePattern!.match!, "\\n")).toBe(true);
@@ -771,14 +771,14 @@ describe("16. Punctuation gets punctuation scope", () => {
     grammar = JSON.parse(readFileSync(GRAMMAR_PATH, "utf-8"));
   });
 
-  it("has patterns with punctuation.rac scope", () => {
-    const patterns = findPatternsWithScope(grammar, "punctuation.rac");
+  it("has patterns with punctuation.rulespec scope", () => {
+    const patterns = findPatternsWithScope(grammar, "punctuation.rulespec");
     expect(patterns.length).toBeGreaterThan(0);
   });
 
   it("matches various punctuation characters", () => {
     const chars = ["{", "}", "[", "]", "(", ")", ",", ":", "."];
-    const patterns = findPatternsWithScope(grammar, "punctuation.rac");
+    const patterns = findPatternsWithScope(grammar, "punctuation.rulespec");
     const unmatched: string[] = [];
     for (const ch of chars) {
       const matched = patterns.some(
@@ -790,9 +790,9 @@ describe("16. Punctuation gets punctuation scope", () => {
   });
 });
 
-describe("Example files are valid RAC content", () => {
-  it("niit.rac contains expected RAC constructs", () => {
-    const content = readFileSync(join(ROOT, "examples", "niit.rac"), "utf-8");
+describe("Example files are valid RuleSpec content", () => {
+  it("niit.rulespec.yaml contains expected RuleSpec constructs", () => {
+    const content = readFileSync(join(ROOT, "examples", "niit.rulespec.yaml"), "utf-8");
     expect(content).toContain("parameter");
     expect(content).toContain("variable");
     expect(content).toContain("formula");
@@ -800,8 +800,8 @@ describe("Example files are valid RAC content", () => {
     expect(content).toContain("imports");
   });
 
-  it("snap.rac contains expected RAC constructs", () => {
-    const content = readFileSync(join(ROOT, "examples", "snap.rac"), "utf-8");
+  it("snap.rulespec.yaml contains expected RuleSpec constructs", () => {
+    const content = readFileSync(join(ROOT, "examples", "snap.rulespec.yaml"), "utf-8");
     expect(content).toContain("parameter");
     expect(content).toContain("variable");
     expect(content).toContain("formula");

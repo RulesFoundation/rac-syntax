@@ -1,0 +1,48 @@
+{
+  "name": "vscode-rulespec",
+  "displayName": "RuleSpec",
+  "description": "Syntax highlighting for RuleSpec files",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publisher": "rulesfoundation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheAxiomFoundation/rulespec-syntax",
+    "directory": "packages/vscode-rulespec"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": ["Programming Languages"],
+  "keywords": ["rulespec", "rules-as-code", "syntax", "highlighting", "tax", "policy"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rulespec",
+        "aliases": ["RuleSpec", "Rules as Code"],
+        "extensions": [".rulespec"],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/rulespec-light.svg",
+          "dark": "./icons/rulespec-dark.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rulespec",
+        "scopeName": "source.rulespec",
+        "path": "./syntaxes/rulespec.tmLanguage.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "bun test",
+    "build": "echo 'No build step needed for grammar extension'",
+    "lint": "echo 'ok'",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "vscode-tmgrammar-test": "^0.1.3"
+  }
+}

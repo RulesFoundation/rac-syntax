@@ -1,15 +1,15 @@
 {
-  "name": "prism-rac",
+  "name": "prism-rulespec",
   "version": "0.1.0",
-  "description": "Prism.js syntax highlighting for RAC (Rules as Code)",
+  "description": "Prism.js syntax highlighting for RuleSpec",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RulesFoundation/rac-syntax",
-    "directory": "packages/prism-rac"
+    "url": "https://github.com/TheAxiomFoundation/rulespec-syntax",
+    "directory": "packages/prism-rulespec"
   },
-  "homepage": "https://rules.foundation",
-  "keywords": ["prismjs", "syntax", "highlighting", "rac", "rules-as-code", "tax", "policy"],
+  "homepage": "https://axiom-foundation.org",
+  "keywords": ["prismjs", "syntax", "highlighting", "rulespec", "rules-as-code", "tax", "policy"],
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

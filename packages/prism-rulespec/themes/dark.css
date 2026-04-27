@@ -1,11 +1,11 @@
 /**
- * RAC Dark Theme for Prism.js
- * Rules Foundation design palette
- * https://rules.foundation
+ * RuleSpec Dark Theme for Prism.js
+ * Axiom Foundation design palette
+ * https://axiom-foundation.org
  */
 
-code[class*="language-rac"],
-pre[class*="language-rac"] {
+code[class*="language-rulespec"],
+pre[class*="language-rulespec"] {
   color: #e2e8f0;
   background: none;
   font-family: "JetBrains Mono", "Fira Code", "Consolas", "Monaco", "Andale Mono", monospace;
@@ -20,7 +20,7 @@ pre[class*="language-rac"] {
   hyphens: none;
 }
 
-pre[class*="language-rac"] {
+pre[class*="language-rulespec"] {
   padding: 1.25em;
   margin: 0.5em 0;
   overflow: auto;
@@ -28,7 +28,7 @@ pre[class*="language-rac"] {
   background: #0f172a;
 }
 
-:not(pre) > code[class*="language-rac"] {
+:not(pre) > code[class*="language-rulespec"] {
   padding: 0.2em 0.4em;
   border-radius: 0.25em;
   white-space: normal;
@@ -125,21 +125,21 @@ pre[class*="language-rac"] {
 }
 
 /* ─── Selection ────────────────────────────────────────────────────────────── */
-code[class*="language-rac"]::selection,
-code[class*="language-rac"] *::selection,
-pre[class*="language-rac"]::selection,
-pre[class*="language-rac"] *::selection {
+code[class*="language-rulespec"]::selection,
+code[class*="language-rulespec"] *::selection,
+pre[class*="language-rulespec"]::selection,
+pre[class*="language-rulespec"] *::selection {
   background: #334155;
 }
 
 /* ─── Line numbers (if using line-numbers plugin) ──────────────────────────── */
-pre[class*="language-rac"].line-numbers {
+pre[class*="language-rulespec"].line-numbers {
   position: relative;
   padding-left: 3.8em;
   counter-reset: linenumber;
 }
 
-pre[class*="language-rac"].line-numbers > code {
+pre[class*="language-rulespec"].line-numbers > code {
   position: relative;
   white-space: inherit;
 }
